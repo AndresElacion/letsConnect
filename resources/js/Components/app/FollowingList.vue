@@ -8,9 +8,9 @@ const SearchKeyword = ref('')
 </script>
 
 <template>
-    <div class="px-3">
-        <h2 class="text-2xl font-bold mb-4">My Friends</h2>
-                <TextInput :model-value="SearchKeyword" placeholder="Search Friends"/>
+    <div class="px-3 bg-white rounded border py-3">
+        <h2 class="text-xl font-bold mb-4">My Followers</h2>
+                <TextInput :model-value="SearchKeyword" placeholder="Search Followers" class="w-full"/>
                 <div class="py-8">
                     <div v-if="false" class="text-gray-400 flex text-center">
                         You don't have friends yet.
