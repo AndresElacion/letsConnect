@@ -8,6 +8,26 @@ const post1 = {
     name: 'John Developer'
   },
   group: null,
+  attachments: [
+    {
+      id: 1,
+      name: 'Test.pnh',
+      url: 'https://picsum.photos/1000',
+      mime: 'image/png',
+    },
+    {
+      id: 2,
+      name: 'Test.pnh',
+      url: 'https://picsum.photos/1000',
+      mime: 'image/png',
+    },
+    {
+      id: 3,
+      name: 'MyDocuments.docx',
+      url: '#',
+      mime: 'application/msword',
+    },
+  ],
   body: `
   <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia.</p>
 

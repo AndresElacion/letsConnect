@@ -10,7 +10,7 @@ const SearchKeyword = ref('')
 <template>
     <div class="px-3">
         <h2 class="text-2xl font-bold mb-4">My Friends</h2>
-                <TextInput :model-value="SearchKeyword" placeholder="Search Groups"/>
+                <TextInput :model-value="SearchKeyword" placeholder="Search Friends"/>
                 <div class="py-8">
                     <div v-if="false" class="text-gray-400 flex text-center">
                         You don't have friends yet.
