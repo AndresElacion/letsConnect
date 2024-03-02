@@ -11,7 +11,7 @@ const SearchKeyword = ref('')
     <TextInput :model-value="SearchKeyword" placeholder="Type to search" class="w-full mt-3"/>
     <div class="mt-3 h-[280px] lg:flex-1 overflow-auto">
         <div v-if="false" class="text-gray-400 text-center p-3">
-            You don't have following yet
+            You don't have following yet.
         </div>
         <div v-else>
             <FollowingItem image="https://picsum.photos/200"
