@@ -1,69 +1,34 @@
 <script setup>
-import FollowingItem from '@/Components/app/FollowingItem.vue'
-import TextInput from '@/Components/TextInput.vue';
-import { ref } from 'vue';
-
-const SearchKeyword = ref('')
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import FollowingListItems from '@/Components/app/FollowingListItems.vue'
 
 </script>
 
 <template>
-    <div class="px-3 bg-white rounded border py-3 h-[580px] overflow-hidden flex flex-col">
-        <h2 class="text-xl font-bold mb-4">My Followers</h2>
-                <TextInput :model-value="SearchKeyword" placeholder="Search Followers" class="w-full"/>
-                <div class="mt-3 flex-1 overflow-auto">
-                    <div v-if="false" class="text-gray-400 flex text-center p-3">
-                        You don't have followers yet.
-                    </div>
-                    <div v-else>
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
-    
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
+    <div class="px-3 bg-white rounded border py-3 overflow-hidden h-full">
+        <div class="block lg:hidden">
+            <Disclosure v-slot="{ open }">
 
-                                   <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
-    
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
+                <DisclosureButton class="w-full">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl font-bold pr-3">My Followings</h2>
 
-                                   <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-all" :class="open ? 'rotate-90 transform' : ''">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
+                        </svg>
+                    </div>    
+                </DisclosureButton>
     
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
+                <DisclosurePanel>
+                    <FollowingListItems />
+                </DisclosurePanel>
+    
+              </Disclosure>
+        </div>
 
-                                   <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
-    
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
-
-                                   <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
-    
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
-
-                                   <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
-    
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
-
-                                   <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
-    
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
-
-                                   <FollowingItem image="https://picsum.photos/200"
-                                   title="John Developer"/>
-    
-                        <FollowingItem image="https://picsum.photos/200"
-                                   title="John Doe"/>
-                    </div>
-                </div>
+        <div class="h-full overflow-hidden flex-col hidden lg:flex">
+            <h2 class="text-xl font-bold">My Followings</h2>
+                <FollowingListItems />
+        </div>
     </div>
 </template>

@@ -78,7 +78,11 @@ const post2 = {
 </script>
 
 <template>
-  <div>
+  <div class="h-full overflow-auto">
+    <PostItem :post="post1"/>
+    <PostItem :post="post2"/>
+    <PostItem :post="post1"/>
+    <PostItem :post="post2"/>
     <PostItem :post="post1"/>
     <PostItem :post="post2"/>
   </div>

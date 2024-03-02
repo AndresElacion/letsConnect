@@ -1,89 +1,37 @@
 <script setup>
-import GroupItem from '@/Components/app/GroupItem.vue'
-import TextInput from '@/Components/TextInput.vue';
-import { ref } from 'vue';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import GroupListItems from '@/Components/app/GroupListItems.vue'
 
-const SearchKeyword = ref('')
+
 
 </script>
 
 <template>
-    <div class="px-3 bg-white rounded border py-3 h-[580px] overflow-hidden flex flex-col">
-        <h2 class="text-xl font-bold mb-4">My Groups</h2>
-                <TextInput :model-value="SearchKeyword" placeholder="Search Groups" class="w-full"/>
-                <div class="mt-3 flex-1 overflow-auto">
-                    <div v-if="false" class="text-gray-400 flex text-center p-3">
-                        You are not joined in any groups
-                    </div>
-                    <div v-else>
-                        <GroupItem image="https://picsum.photos/100"
-                                   title="Laravel Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
+    <div class="px-3 bg-white rounded border py-3 overflow-hidden h-full">
+
+        <div class="block lg:hidden">
+            <Disclosure v-slot="{ open }">
+
+                <DisclosureButton class="w-full">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl font-bold pr-3">My Groups</h2>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-all" :class="open ? 'rotate-90 transform' : ''">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z" />
+                        </svg>
+                    </div>    
+                </DisclosureButton>
     
-                        <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
+                <DisclosurePanel>
+                    <GroupListItems />
+                </DisclosurePanel>
+    
+              </Disclosure>
+        </div>
 
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-
-                                   <GroupItem image="https://picsum.photos/100"
-                                   title="Vue.js Developer"
-                                   description="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, officia."/>
-                    </div>
-                </div>
+        <div class="h-full overflow-hidden flex-col hidden lg:flex">
+            <h2 class="text-xl font-bold">My Groups</h2>
+                <GroupListItems />
+        </div>
     </div>
 </template>
