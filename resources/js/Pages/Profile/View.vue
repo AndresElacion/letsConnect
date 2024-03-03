@@ -116,7 +116,7 @@
                         <li>&middot;</li>
                         <li>{{ post.commentCount }} comments</li>
                         <li>&middot;</li>
-                        <li>{{ post.shareCount }} shares</li>
+                        <li>{{ post.shareCount }} share</li>
                       </ul>
         
                       <a
