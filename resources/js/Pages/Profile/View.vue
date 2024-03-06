@@ -1,4 +1,5 @@
 <script setup>
+  import { useForm } from '@inertiajs/vue3'
   import { usePage } from '@inertiajs/vue3'
   import { computed, ref } from 'vue'
   import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
@@ -8,6 +9,13 @@
   import Edit from '@/Pages/Profile/Edit.vue';
   import PrimaryButton from '@/Components/PrimaryButton.vue'
 
+  const imagesForm = useForm({
+    avatar: null,
+    cover: null,
+  })
+
+  const showNotification = ref(true)
+  
   let coverImageFile = null
 
   const coverImageSrc = ref('')
@@ -17,6 +25,7 @@
   const isMyProfile = computed(() => authUser && authUser.id === props.user.id)
 
   const props = defineProps({
+    errors: Object,
     mustVerifyEmail: {
         type: Boolean,
     },
@@ -29,31 +38,52 @@
   });
 
   function onCoverChange (event) {
-    coverImageFile = event.target.files[0]
-    if(coverImageFile) {
+    imagesForm.cover = event.target.files[0]
+    if(imagesForm.cover) {
         const reader = new FileReader()
         reader.onload = () => {
-            console.log('onload')
             coverImageSrc.value = reader.result
         }
-        reader.readAsDataURL(coverImageFile)
+        reader.readAsDataURL(imagesForm.cover)
     }
   }
 
   function cancelCoverImage() {
-    coverImageFile = null
+    imagesForm.cover = null
     coverImageSrc.value = null
   }
 
   function submitCoverImage() {
-    console.log(coverImageFile)
+    imagesForm.post(route('profile.updateImage'), {
+        onSuccess: (user) => {
+            cancelCoverImage()
+            setTimeout(() => {
+                showNotification.value = false
+            }, 3000)
+        }
+    })
   }
+
+
 </script>
   
 <template>
 <AuthenticatedLayout>
-    <div class="w-[900px] container mx-auto mt-3 h-full overflow-auto">
+    <div class="max-w-[900px] container mx-auto mt-3 h-full overflow-auto">
+        <!-- success -->
+        <div
+            v-show="showNotification && status === 'cover-image-update'"
+            class="my-2 py-2 px-3 font-medium text-sm bg-emerald-500 text-white">
+            Your cover image has been updated.
+        </div>
+        <!-- Error -->
+        <div
+            v-if="errors.cover"
+            class="my-2 py-2 px-3 font-medium text-sm bg-red-400 text-white">
+            {{ errors.cover }}
+        </div>
         <div class="group relative bg-white pb-2">
+            
             <!-- Cover -->
             <img :src="coverImageSrc || user.cover_url || '/img/default_cover.jpg'" 
             class="w-full h-[200px] object-cover">
