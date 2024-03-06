@@ -1,11 +1,16 @@
 <script setup>
-  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   import { usePage } from '@inertiajs/vue3'
   import { computed, ref } from 'vue'
   import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+  import { XMarkIcon, CheckCircleIcon } from '@heroicons/vue/24/solid'
+  import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
   import TabItem from '@/Pages/Profile/Partials/TabItem.vue';
   import Edit from '@/Pages/Profile/Edit.vue';
   import PrimaryButton from '@/Components/PrimaryButton.vue'
+
+  let coverImageFile = null
+
+  const coverImageSrc = ref('')
 
   const authUser = usePage().props.auth.user;
 
@@ -22,15 +27,66 @@
         type: Object,
     }
   });
+
+  function onCoverChange (event) {
+    coverImageFile = event.target.files[0]
+    if(coverImageFile) {
+        const reader = new FileReader()
+        reader.onload = () => {
+            console.log('onload')
+            coverImageSrc.value = reader.result
+        }
+        reader.readAsDataURL(coverImageFile)
+    }
+  }
+
+  function cancelCoverImage() {
+    coverImageFile = null
+    coverImageSrc.value = null
+  }
+
+  function submitCoverImage() {
+    console.log(coverImageFile)
+  }
 </script>
   
 <template>
 <AuthenticatedLayout>
     <div class="w-[900px] container mx-auto mt-3 h-full overflow-auto">
-        <div class="relative bg-white pb-2">
-            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/cf1db591258469.5ee6a7ebdea1f.png" 
+        <div class="group relative bg-white pb-2">
+            <!-- Cover -->
+            <img :src="coverImageSrc || user.cover_url || '/img/default_cover.jpg'" 
             class="w-full h-[200px] object-cover">
+            <div class="absolute top-2 right-2">
+                <!-- Upload -->
+                <button v-if="!coverImageSrc" class="bg-gray-50 hover:bg-gray-100 text-gray-800 py-1 px-2 text-xs flex items-center opacity-0 group-hover:opacity-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                    </svg>
+                      
+                    Update Cover Image
+                    <input type="file" @change="onCoverChange" class="absolute left-0 top-0 bottom-0 right-0 opacity-0">
+                </button>
+
+                <div v-else class="flex gap-2 opacity-0 group-hover:opacity-100">
+                    <!-- cancel -->
+                <button @click="cancelCoverImage" class="bg-gray-50 hover:bg-gray-100 text-gray-800 rounded-lg py-1 px-2 text-xs flex items-center">
+                    <XMarkIcon class="h-3 w-3 mr-2"/>
+                    Cancel
+                </button>
+
+                <!-- Submit -->
+                <button @click="submitCoverImage" class="bg-gray-800 hover:bg-gray-900 text-gray-100 rounded-lg py-1 px-2 text-xs flex items-center">
+                    <CheckCircleIcon class="h-3 w-3 mr-2"/>
+                    Submit
+                </button>
+                </div>
+            </div>
+            <!-- End of Cover -->
+
             <div class="flex">
+                <!-- Profile -->
                 <img src="https://w7.pngwing.com/pngs/490/157/png-transparent-male-avatar-boy-face-man-user-flat-classy-users-icon.png" 
                     class="ml-[48px] w-[128px] h-[128px] -mt-[68px] rounded-full">
                 <div class="flex flex-1 justify-between items-center p-4">
@@ -42,6 +98,7 @@
                         Edit Profile
                     </PrimaryButton>
                 </div>
+                <!-- End of Profile -->
             </div>
         </div>
 
