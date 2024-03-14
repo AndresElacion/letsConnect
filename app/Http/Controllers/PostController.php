@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -35,6 +36,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $id = Auth::id();
+
+        if ($post->user_id !== $id) {
+            return response('You dont have permission to delete this post', 403);
+        }
+
+        $post->delete();
+
+        return back();
     }
 }
