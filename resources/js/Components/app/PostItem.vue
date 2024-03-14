@@ -1,40 +1,34 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { ChevronDownIcon, PencilIcon, TrashIcon, EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
+import { PencilIcon, TrashIcon, EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
+import { ref } from 'vue'
+import PostUserHeader from '@/Components/app/PostUserHeader.vue'
 
-defineProps({
+const props = defineProps({
   post: Object,
 })
+
+const emit = defineEmits(['emitClick'])
 
 function isImage(attachment) {
   const mime = attachment.mime.split('/')
   return mime[0].toLowerCase() === 'image'
+}
+
+function openEditModal() {
+  emit('editClick', props.post)
 }
 </script>
 
 <template>
   <div v-if="post" class="bg-white border rounded p-4 shadow mb-3">
     <div class="flex items-center justify-between mb-3">
-      <div class="flex items-center gap-2">
-        <a href="javascript:void(0)">
-          <img v-if="post.user" :src="post.user.avatar_url" class="w-[40px] rounded-full border-2 transition-all hover:border-blue-500">
-        </a>
-        <div>
-          <h4 class="font-bold">
-            <a v-if="post.user" href="javascript:void(0)" class="hover:underline">{{ post.user.name }}</a>
-            <template v-if="post.group">
-              >
-              <a href="javascript:void(0)" class="hover:underline">{{ post.group.name }}</a>
-            </template>
-          </h4>
-          <small class="text-gray-400">{{ post.created_at }}</small>
-        </div>
-      </div>
+      <PostUserHeader :post="post" />
         <Menu as="div" class="relative inline-block text-left">
           <div>
             <MenuButton
-              class=""
+              class="w-8 h-8 rounded-full hover:bg-black/5 transition flex items-center justify-center"
             >
               <EllipsisVerticalIcon
                 class="w-5 h-5"
@@ -52,13 +46,14 @@ function isImage(attachment) {
             leave-to-class="transform scale-95 opacity-0"
           >
             <MenuItems
-              class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+              class="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
             >
               <div class="px-1 py-1">
                 <MenuItem v-slot="{ active }">
                   <button
+                    @click="openEditModal"
                     :class="[
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                      active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                       'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                     ]"
                   >
@@ -72,7 +67,7 @@ function isImage(attachment) {
                 <MenuItem v-slot="{ active }">
                   <button
                     :class="[
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900',
+                      active ? 'bg-indigo-500 text-white' : 'text-gray-900',
                       'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                     ]"
                   >
