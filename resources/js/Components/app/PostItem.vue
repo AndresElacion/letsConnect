@@ -4,17 +4,13 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { PencilIcon, TrashIcon, EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import { router } from '@inertiajs/vue3'
 import PostUserHeader from '@/Components/app/PostUserHeader.vue'
+import { isImage } from '@/helpers.js'
 
 const props = defineProps({
   post: Object,
 })
 
 const emit = defineEmits(['emitClick'])
-
-function isImage(attachment) {
-  const mime = attachment.mime.split('/')
-  return mime[0].toLowerCase() === 'image'
-}
 
 function openEditModal() {
   emit('editClick', props.post)
@@ -111,7 +107,7 @@ function deletePost() {
 
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
       <template v-for="attachment of post.attachments">
-        <div class="group aspect-square bg-blue-100 flex flex-col items-center justify-center  relative rounded-lg">
+        <div class="group aspect-square bg-blue-100 flex flex-col items-center justify-center relative rounded-lg">
           
           <!-- Download -->
           <button class="opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center w-6 h-6 text-white bg-gray-500 hover:bg-gray-600 rounded absolute right-2 top-2 cursor-pointer">
@@ -119,7 +115,7 @@ function deletePost() {
               <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
             </svg>
           </button>
-          <!-- Download -->
+          <!-- /Download -->
 
           <img v-if="isImage(attachment)" 
           :src="attachment.url" 
