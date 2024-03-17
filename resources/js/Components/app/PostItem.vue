@@ -124,7 +124,7 @@ function deletePost() {
 
           <img v-if="isImage(attachment)" 
           :src="attachment.url" 
-          class="object-contain aspect-square rounded-lg">
+          class="object-contain rounded-lg">
 
           <template v-else>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-gray-500">
