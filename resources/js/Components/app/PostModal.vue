@@ -32,6 +32,7 @@
   const form = useForm({
     id: null,
     body: '',
+    attachments: []
   })
 
   const show = computed({
@@ -48,25 +49,28 @@
   
   function closeModal() {
     show.value = false
+    resetModal()
+  }
+
+  function resetModal() {
     form.reset()
     attachmentFiles.value = []
   }
 
   function submit() {
+    form.attachments = attachmentFiles.value.map(myFile => myFile.file)
     if (form.id) {
       form.put(route('post.update', props.post), {
         preserveScroll: true,
         onSuccess: () => {
-          show.value = false
-          form.reset()
+          closeModal()
         }
       })
     } else {
       form.post(route('post.create'), {
         preserveScroll: true,
         onSuccess: () => {
-          show.value = false
-          form.reset()
+          closeModal()
         }
       })
     }
@@ -110,7 +114,7 @@
 <template>
   <Teleport to="body">
     <TransitionRoot appear :show="show" as="template">
-      <Dialog as="div" @close="closeModal" class="relative z-10">
+      <Dialog as="div" @close="closeModal" class="relative z-50">
         <TransitionChild
           as="template"
           enter="duration-300 ease-out"
@@ -153,8 +157,8 @@
                   <ckeditor :editor="editor" v-model="form.body" :config="editorConfig"></ckeditor>
 
                   <!-- image preview -->
-                  <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 my-3">
-                    <!-- need to double this -->
+                  <div class="grid gap-3 my-3" :class="[attachmentFiles.length == 1 ? 'grid-cols-1' : 'grid-cols-2 lg:grid-cols-3']">
+                    
                     <template v-for="myFile of attachmentFiles">
                       <div class="group aspect-square bg-blue-100 flex flex-col items-center justify-center relative rounded-lg">
 
@@ -165,7 +169,7 @@
               
                         <img v-if="isImage(myFile.file)" 
                         :src="myFile.url" 
-                        class="object-cover aspect-square rounded-lg">
+                        class="object-contain rounded-lg">
               
                         <template v-else>
                           <PaperClipIcon class="w-10 h-10"/>
